@@ -1,13 +1,24 @@
 const puzzleEl = document.querySelector('#puzzle')
 const guessesEl = document.querySelector('#guesses')
-const game1 = new HangMan('Venezuela', 3)
-puzzleEl.textContent = game1.getPuzzle()
-guessesEl.textContent = game1.messages()
+let game1 
 
-window.addEventListener('keypress',function (e) {
+window.addEventListener('keypress', (e) => {
     const guess = String.fromCharCode(e.charCode)
     game1.makeGuess(guess)
-    puzzleEl.textContent = game1.getPuzzle()
-    guessesEl.textContent = game1.messages()
-
+    render()
 })
+
+const render = () => {
+    puzzleEl.textContent = game1.puzzle
+    guessesEl.textContent = game1.messages    
+}
+
+const startGame = async () => {
+    const puzzle = await getPuzzle('1')
+    game1 = new HangMan(puzzle, 5)
+    render()
+}
+
+document.querySelector('#reset').addEventListener('click', startGame)
+
+startGame()
