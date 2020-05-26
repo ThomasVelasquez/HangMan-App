@@ -9,15 +9,22 @@ window.addEventListener('keypress', (e) => {
 })
 
 const render = () => {
-    puzzleEl.textContent = game1.puzzle
-    guessesEl.textContent = game1.messages    
+    puzzleEl.innerHTML = ''
+    guessesEl.textContent = game1.messages
+    
+    game1.puzzle.split('').forEach((letter) => {
+        const letterEl = document.createElement('span')
+        letterEl.textContent = letter
+        puzzleEl.appendChild(letterEl)
+    })
 }
 
 const startGame = async () => {
-    const puzzle = await getPuzzle('1')
+    const puzzle = await getPuzzle('2')
     game1 = new HangMan(puzzle, 5)
     render()
 }
 
 document.querySelector('#reset').addEventListener('click', startGame)
+
 startGame()
